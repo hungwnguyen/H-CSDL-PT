@@ -7,6 +7,7 @@ import feature_extraction as fe
 import search_image as si
 
 path = 'Changes Images/'
+n = 5
 
 def open_image():
     filepath = filedialog.askopenfilename()
@@ -17,8 +18,8 @@ def open_image():
 def display_selected_image(filepath):
     img = Image.open(filepath)
     filename = os.path.basename(filepath)
-    feature_current = fe.crop_images(img, filename, hasInput=True)
-    image_list = si.search_image(feature_current)
+    feature_current = fe.crop_images(img, filename, n, hasInput=True)
+    image_list = si.search_image(feature_current, n)
     display_image_sequence(image_list, 0)
     img = img.resize((180, 190), Image.Resampling.LANCZOS)
     img = ImageTk.PhotoImage(img)
@@ -35,7 +36,7 @@ def display_image_sequence(image_list, index):
         panel = tk.Label(image_frame, image=img, bg='yellow')
         panel.image = img
         panel.grid(row=0, column=index, padx=10, pady=10)
-        label = tk.Label(image_frame, text=f"Similarity : {abs(image_list[index][0])}\n{os.path.basename(img_path)}", bg='yellow', font=('Helvetica', 12, 'bold'))
+        label = tk.Label(image_frame, text=f"{os.path.basename(img_path)}\nSimilarity : {abs(image_list[index][0])}", bg='yellow', font=('Helvetica', 12, 'bold'))
         label.grid(row=1, column=index, padx=10, pady=5)
         image_labels.append((panel, label))
         root.after(200, display_image_sequence, image_list, index + 1)
@@ -51,6 +52,13 @@ def clear_images():
         panel.destroy()
         label.destroy()
     image_labels.clear()
+
+def read_data():
+    si.read_data(n)
+
+def update_n(value):
+    global n
+    n = int(value)
 
 root = TkinterDnD.Tk()  # Corrected to use TkinterDnD.Tk()
 root.title("Fingerprint Ranking")
@@ -76,6 +84,15 @@ fixed_panel = tk.Label(fixed_frame, bg='yellow')
 fixed_panel.pack(side='top')
 fixed_label = tk.Label(fixed_frame, text='', bg='yellow', font=('Helvetica', 12, 'bold'))
 fixed_label.pack(side='top')
+
+# Add a slider to change the value of n
+slider_frame = tk.Frame(button_frame, bg='yellow')
+slider_frame.pack(side='right', padx=20)
+slider_button = tk.Button(slider_frame, text='Adjust n:', command=read_data, bg='green', font=('Helvetica', 14, 'bold'), fg = 'white')
+slider_button.pack(side='top', pady=5)
+n_slider = tk.Scale(slider_frame, from_=1, to=12, orient='horizontal', command=update_n, bg='green', font=('Helvetica', 12))
+n_slider.set(n)
+n_slider.pack(side='top', pady=5)
 
 # Drag and Drop functionality
 root.drop_target_register(DND_FILES)

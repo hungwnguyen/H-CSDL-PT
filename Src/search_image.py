@@ -29,8 +29,9 @@ def calculate_similarity(feature_current, feature_data):
         distances.append(distance)
     return calculate_average_distance(distances)
 
-def read_data():
-    df = pd.read_csv('Data/fingerprint characteristic data.csv')
+def read_data(n):
+    data_dict.clear()
+    df = pd.read_csv('Data/fingerprint_characteristic_data_' + f"{n}x{n}.csv")
     # Iterate over each row in the DataFrame
     for index, row in df.iterrows():
         # If the filename is not already a key in the dictionary, add it with an empty list as its value
@@ -39,7 +40,9 @@ def read_data():
         # Append the values as a list to the filename key in the dictionary
         data_dict[row['filename']].append([row['start_points'], row['connection_points'], row['branch_points']])
 
-def search_image(feature_current):
+def search_image(feature_current, n):
+    if (not data_dict):
+        read_data(n)
     # Create a min-heap to store the top three smallest scores
     result = []
     # Iterate over each key-value pair in the data dictionary
@@ -55,5 +58,3 @@ def search_image(feature_current):
     result.sort(reverse=True)
     return result
 
-# Assuming read_data() is a function that populates data_dict
-read_data()

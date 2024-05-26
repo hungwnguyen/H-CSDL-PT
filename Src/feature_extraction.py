@@ -34,17 +34,15 @@ def feature_extraction(cropped_img):
                     branch_points += 1
     return [start_points, connection_points, branch_points]
 
-def save_to_csv(data, img_name):
+def save_to_csv(data, img_name, n):
     df = pd.DataFrame([data], columns=['start_points', 'connection_points', 'branch_points'])
     df.insert(0, 'filename', img_name)
-    if not os.path.isfile('Data/fingerprint characteristic data.csv'):
-        df.to_csv('Data/fingerprint characteristic data.csv', mode='w', header=True, index=False)
+    if not os.path.isfile('Data/fingerprint_characteristic_data_' + f"{n}x{n}.csv"):
+        df.to_csv('Data/fingerprint_characteristic_data_' + f"{n}x{n}.csv", mode='w', header=True, index=False)
     else:
-        df.to_csv('Data/fingerprint characteristic data.csv', mode='a', header=False, index=False)
+        df.to_csv('Data/fingerprint_characteristic_data_' + f"{n}x{n}.csv", mode='a', header=False, index=False)
 
-def crop_images(img, img_name, hasInput=False):
-    # n x n is the number of windows inside an image
-    n = 5
+def crop_images(img, img_name, n, hasInput=False):
     w, h = img.size
     w_step = w // n
     h_step = h // n
@@ -59,15 +57,15 @@ def crop_images(img, img_name, hasInput=False):
             if hasInput:
                 feature_result.append(feature_extraction(cropped_img))
             else:
-                save_to_csv(feature_extraction(cropped_img), img_name)
+                save_to_csv(feature_extraction(cropped_img), img_name, n)
     return feature_result
 
-def read_data():
+def read_data(n):
     directory = 'Changes Images'
     for filename in os.listdir(directory):
         if filename.endswith(".png"):
             img = Image.open(f'{directory}/{filename}')
-            crop_images(img, filename)
-            
-# read_data()
+            crop_images(img, filename, n)
+# for i in range(1, 13):            
+#     read_data(i)
 
