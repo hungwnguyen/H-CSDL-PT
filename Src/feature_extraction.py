@@ -42,12 +42,13 @@ def save_to_csv(data, img_name):
     else:
         df.to_csv('Data/fingerprint characteristic data.csv', mode='a', header=False, index=False)
 
-def crop_images(img, img_name):
+def crop_images(img, img_name, hasInput=False):
     # n x n is the number of windows inside an image
     n = 5
     w, h = img.size
     w_step = w // n
     h_step = h // n
+    feature_result = []
     for i in range(n):
         for j in range(n):
             left = i * w_step
@@ -55,7 +56,11 @@ def crop_images(img, img_name):
             right = (i + 1) * w_step
             lower = (j + 1) * h_step
             cropped_img = img.crop((left, upper, right, lower))
-            save_to_csv(feature_extraction(cropped_img), img_name)
+            if hasInput:
+                feature_result.append(feature_extraction(cropped_img))
+            else:
+                save_to_csv(feature_extraction(cropped_img), img_name)
+    return feature_result
 
 def read_data():
     directory = 'Changes Images'
