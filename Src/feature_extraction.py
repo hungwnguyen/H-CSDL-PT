@@ -10,7 +10,7 @@ def calculate_clockwise_differences(grid):
     total_difference = sum(differences)
     return total_difference
 
-def feature_extraction(cropped_img, i, j):
+def feature_extraction(cropped_img):
     img_array = np.array(cropped_img)
     start_points = 0
     connection_points = 0
@@ -55,7 +55,7 @@ def crop_images(img, img_name):
             right = (i + 1) * w_step
             lower = (j + 1) * h_step
             cropped_img = img.crop((left, upper, right, lower))
-            save_to_csv(feature_extraction(cropped_img, i, j), img_name)
+            save_to_csv(feature_extraction(cropped_img), img_name)
 
 def read_data():
     directory = 'Changes Images'
