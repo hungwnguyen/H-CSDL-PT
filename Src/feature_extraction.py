@@ -64,6 +64,5 @@ def read_data():
             img = Image.open(f'{directory}/{filename}')
             crop_images(img, filename)
             
-read_data()
-print("Hoàn thành quá trình trích rút.")
+# read_data()
 
