@@ -7,7 +7,7 @@ import feature_extraction as fe
 import search_image as si
 
 path = 'Changes Images/'
-n = 12
+n = 8
 si.read_data(n)
 
 def open_image():
