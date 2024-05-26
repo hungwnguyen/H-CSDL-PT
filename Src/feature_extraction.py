@@ -66,6 +66,6 @@ def read_data(n):
         if filename.endswith(".png"):
             img = Image.open(f'{directory}/{filename}')
             crop_images(img, filename, n)
-# for i in range(1, 13):            
+# for i in range(1, 16):            
 #     read_data(i)
 

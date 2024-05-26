@@ -7,7 +7,8 @@ import feature_extraction as fe
 import search_image as si
 
 path = 'Changes Images/'
-n = 5
+n = 12
+si.read_data(n)
 
 def open_image():
     filepath = filedialog.askopenfilename()
@@ -87,10 +88,10 @@ fixed_label.pack(side='top')
 
 # Add a slider to change the value of n
 slider_frame = tk.Frame(button_frame, bg='yellow')
-slider_frame.pack(side='right', padx=20)
+slider_frame.pack(side='right', padx=30)
 slider_button = tk.Button(slider_frame, text='Adjust n:', command=read_data, bg='green', font=('Helvetica', 14, 'bold'), fg = 'white')
 slider_button.pack(side='top', pady=5)
-n_slider = tk.Scale(slider_frame, from_=1, to=12, orient='horizontal', command=update_n, bg='green', font=('Helvetica', 12))
+n_slider = tk.Scale(slider_frame, from_=1, to=15, orient='horizontal', command=update_n, bg='green', font=('Helvetica', 12))
 n_slider.set(n)
 n_slider.pack(side='top', pady=5)
 
