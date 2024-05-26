@@ -43,7 +43,7 @@ def save_to_csv(data, img_name):
         df.to_csv('Data/fingerprint characteristic data.csv', mode='a', header=False, index=False)
 
 def crop_images(img, img_name):
-    # n is the number of windows inside an image
+    # n x n is the number of windows inside an image
     n = 5
     w, h = img.size
     w_step = w // n
