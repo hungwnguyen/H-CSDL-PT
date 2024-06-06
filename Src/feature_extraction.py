@@ -8,7 +8,7 @@ def calculate_clockwise_differences(grid):
     clockwise_order = [grid[0, 0], grid[0, 1], grid[0, 2], grid[1, 2], grid[2, 2], grid[2, 1], grid[2, 0], grid[1, 0]]
     differences = [abs(clockwise_order[i] - clockwise_order[i-1]) for i in range(len(clockwise_order))]
     total_difference = sum(differences)
-    return total_difference
+    return total_difference / 2
 
 def feature_extraction(cropped_img):
     img_array = np.array(cropped_img)
